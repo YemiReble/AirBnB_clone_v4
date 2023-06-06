@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """ Starts a Flash Web Application """
+import uuid
 from models import storage
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+from models.place import Place
 from os import environ
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -17,9 +19,9 @@ def close_db(error):
     storage.close()
 
 
-@app.route('/hbnb_filters', strict_slashes=False)
-def hbnb_filter():
-    """ HBNB filters """
+@app.route('/2-hbnb/', strict_slashes=False)
+def hbnb():
+    """ HBNB is alive! """
     states = storage.all(State).values()
     states = sorted(states, key=lambda k: k.name)
     st_ct = []
@@ -30,9 +32,16 @@ def hbnb_filter():
     amenities = storage.all(Amenity).values()
     amenities = sorted(amenities, key=lambda k: k.name)
 
-    return render_template('10-hbnb_filters.html',
+    places = storage.all(Place).values()
+    places = sorted(places, key=lambda k: k.name)
+
+    unq_id = uuid.uuid4()
+
+    return render_template('1-hbnb.html',
                            states=st_ct,
-                           amenities=amenities)
+                           amenities=amenities,
+                           cache_id=unq_id,
+                           places=places)
 
 
 if __name__ == "__main__":
