@@ -37,7 +37,7 @@ def hbnb():
 
     unq_id = uuid.uuid4()
 
-    return render_template('1-hbnb.html',
+    return render_template('2-hbnb.html',
                            states=st_ct,
                            amenities=amenities,
                            cache_id=unq_id,
